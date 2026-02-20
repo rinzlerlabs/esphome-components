@@ -29,10 +29,9 @@ output:
 
   - platform: priority_gpio
     id: reset_line
-    pin:
-      number: GPIO4
-      inverted: true
-    priority: 1100.0     # Runs after power_enable
+    pin: GPIO4
+    initial_state: true   # Start HIGH on boot
+    priority: 1100.0      # Runs after power_enable
 ```
 
 #### Configuration Variables
@@ -42,6 +41,7 @@ output:
 | `id` | **Yes** | — | Unique identifier for this output |
 | `pin` | **Yes** | — | GPIO pin to control ([Pin Schema](https://esphome.io/guides/configuration-types.html#pin-schema)) |
 | `priority` | No | `800.0` | Setup priority. **Higher values run earlier** during boot. Standard ESPHome priorities: `BUS` = 1000, `IO` = 900, `HARDWARE` = 800, `DATA` = 600, `PROCESSOR` = 400, `BLUETOOTH` = 350, `AFTER_BLUETOOTH` = 300, `WIFI`/`ETHERNET` = 250, `BEFORE_CONNECTION` = 220, `AFTER_WIFI` = 200, `AFTER_CONNECTION` = 100, `LATE` = -100 |
+| `initial_state` | No | `false` | Initial pin state on boot. `true` = HIGH, `false` = LOW |
 | `inverted` | No | `false` | Invert the output logic |
 | `power_supply` | No | — | ID of a [Power Supply](https://esphome.io/components/power_supply.html) to automatically enable |
 
@@ -61,5 +61,6 @@ output:
   - platform: priority_gpio
     id: rail_3v3
     pin: GPIO18
+    initial_state: true   # Start HIGH on boot
     priority: 1100.0
 ```

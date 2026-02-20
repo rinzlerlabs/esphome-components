@@ -15,10 +15,16 @@ class PriorityGPIOBinaryOutput : public output::BinaryOutput, public Component {
   /// Set the setup priority. Higher values run earlier during boot.
   void set_priority(float priority) { this->priority_ = priority; }
 
+  /// Set the initial state of the pin on boot (true = HIGH, false = LOW).
+  void set_initial_state(bool initial_state) { this->initial_state_ = initial_state; }
+
   void setup() override {
-    this->turn_off();
     this->pin_->setup();
-    this->turn_off();
+    if (this->initial_state_) {
+      this->turn_on();
+    } else {
+      this->turn_off();
+    }
   }
 
   void dump_config() override;
@@ -31,6 +37,7 @@ class PriorityGPIOBinaryOutput : public output::BinaryOutput, public Component {
 
   GPIOPin *pin_;
   float priority_{800.0f};  // Default: setup_priority::HARDWARE
+  bool initial_state_{false};
 };
 
 }  // namespace priority_gpio
